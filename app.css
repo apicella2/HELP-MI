@@ -1,0 +1,45 @@
+            html, body {
+                margin  : 0;
+                padding : 0;
+                height  : 100%;
+                width   : 100%;
+            }
+            @media only screen and (max-width: 600px) {
+                html, body {
+                    height  : 117%;
+                }
+            }
+            #map {
+                width    : 100%;
+                position : relative;
+                height   : 100%;
+            }
+            .olControlAttribution {
+                position      : absolute;
+                font-size     : 10px;
+                bottom        : 0 !important;
+                right         : 0 !important;
+                background    : rgba(0,0,0,0.1);
+                font-family   : Arial;
+                padding       : 2px 4px;
+                border-radius : 5px 0 0 0;
+            }
+            #title, #tags, #shortdesc {
+                display: none;
+            }
+.smallmap {
+    width: 512px;
+    height: 256px;
+    border: 1px solid #ccc;
+}			
+
+			
+			.olLayerGoogleCopyright {
+    right: 3px;
+    bottom: 2px;
+    left: auto;  
+}
+.olLayerGooglePoweredBy {
+    left: 2px;
+    bottom: 2px;   
+}
