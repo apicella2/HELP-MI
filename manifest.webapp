@@ -2,7 +2,6 @@
 	"version": "0.1",
 	"name": "HELP-MI",
 	"description": "I servizi del Comune di Milano a portata di mano",
-	"appcache_path": "https://github.com/apicella2/HELP-MI/cache.manifest",
 	"type": "web",
 	"launch_path": "/apicella2/HELP-MI/",
 	"icons": {
