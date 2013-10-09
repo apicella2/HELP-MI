@@ -1,19 +1,17 @@
 ﻿{
 	"version": "0.1",
-	"name": "HELP-MI",
-	"description": "I servizi del Comune di Milano a portata di mano",
-	"type": "web",
-	"launch_path": "/apicella2/HELP-MI/",
+	"name": "MONDO",
+	"description": "YUP",
+	"launch_path": "/help-mi/test/",
 	"icons": {
-		"16": "/apicella2/HELP-MI/img/helpmi_16.png",
-		"48": "/apicella2/HELP-MI/img/helpmi_48.png",
-		"60": "/apicella2/HELP-MI/img/helpmi_60.png",
-		"128": "/apicella2/HELP-MI/img/helpmi_128.png"
+		"16": "/help-mi/test/img/helpmi_16.png",
+		"48": "/help-mi/test/img/helpmi_48.png",
+		"60": "/help-mi/test/img/helpmi_60.png",
+		"128": "/help-mi/test/img/helpmi_128.png"
 	},
 	"developer": {
 		"name": "Daniele Apicella and Daniele Sodano",
 		"url": "http://opengisitalia.it/help-mi"
 	},
-	"installs_allowed_from": ["*"],
 	"default_locale": "it"
 }

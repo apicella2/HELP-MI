@@ -1,63 +1,22 @@
 <!DOCTYPE html>
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<meta charset="utf-8">
-		<title>HELP-MI</title>
-		<meta name="description" content="I servizi del Comune di Milano a portata di mano">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-        <link rel="app-manifest" href="https://github.com/apicella2/HELP-MI/manifest.webapp">
-		<link rel="stylesheet" type="text/css" href="leaflet.css">
-		<link rel="stylesheet" type="text/css" href="main.css">
-		<script type="text/javascript">
-            var path = document.location.pathname;
-            var L_ROOT_URL = path.substr(0, path.indexOf('index.html', 1));
-        </script>
-		<script type="text/javascript" src="leaflet-src.js"></script>
-		<script type="text/javascript" src="mozapps.js"></script>
-		<script type="text/javascript" src="app.js"></script>
-	</head>
-	<body style="">
-        <div id="buttons">
-            <input id="txtSearch" type="text"><button id="btnSearch">Find</button>
-            <button id="btnLocation">location</button>
-        </div>
-        <div style="position: relative;" class=" leaflet-container leaflet-fade-anim" id="map"><div style="left: 0px; top: 0px;" class="leaflet-map-pane"><div class="leaflet-tile-pane"><div class="leaflet-layer"><img src="Open%20Street%20Maps_files/5862_002.png" style="width: 256px; height: 256px; left: 292px; top: 44px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5863_005.png" style="width: 256px; height: 256px; left: 292px; top: 300px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5862.png" style="width: 256px; height: 256px; left: 36px; top: 44px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5862_005.png" style="width: 256px; height: 256px; left: 548px; top: 44px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5863_003.png" style="width: 256px; height: 256px; left: 36px; top: 300px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5863_002.png" style="width: 256px; height: 256px; left: 548px; top: 300px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5861_004.png" style="width: 256px; height: 256px; left: 292px; top: -212px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5864_004.png" style="width: 256px; height: 256px; left: 292px; top: 556px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5861_003.png" style="width: 256px; height: 256px; left: 36px; top: -212px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5861_005.png" style="width: 256px; height: 256px; left: 548px; top: -212px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5864_005.png" style="width: 256px; height: 256px; left: 36px; top: 556px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5864.png" style="width: 256px; height: 256px; left: 548px; top: 556px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5862_004.png" style="width: 256px; height: 256px; left: -220px; top: 44px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5862_003.png" style="width: 256px; height: 256px; left: 804px; top: 44px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5863_004.png" style="width: 256px; height: 256px; left: -220px; top: 300px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5863.png" style="width: 256px; height: 256px; left: 804px; top: 300px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5861.png" style="width: 256px; height: 256px; left: -220px; top: -212px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5861_002.png" style="width: 256px; height: 256px; left: 804px; top: -212px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5864_002.png" style="width: 256px; height: 256px; left: -220px; top: 556px;" class="leaflet-tile leaflet-tile-loaded"><img src="Open%20Street%20Maps_files/5864_003.png" style="width: 256px; height: 256px; left: 804px; top: 556px;" class="leaflet-tile leaflet-tile-loaded"></div></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-control"><a class="leaflet-control-zoom-in" title="Zoom in" href="#"></a><a class="leaflet-control-zoom-out" title="Zoom out" href="#"></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control">Powered by <a href="http://leaflet.cloudmade.com/">Leaflet</a> — Map data © <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com/">CloudMade</a></div></div></div></div>
-        <script type="text/javascript">
-            var settings = {
-                lat: localStorage.getItem('lastLat') || 37.37779161,
-                lng: localStorage.getItem('lastLng') || -122.08110809,
-                zoom: localStorage.getItem('lastZoom') || 12 // this should be changed after zoom on the map will be changed
-            }
-
-            var map = new L.Map('map');
-
-            // create a CloudMade tile layer (or use other provider of your choice)
-            var cloudmade = new L.TileLayer('http://{s}.tile.cloudmade.com/c59737139dc84cc0b03f9c0b9f57e586/997/256/{z}/{x}/{y}.png', {
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-                maxZoom: 18
-            });
-
-              // add the CloudMade layer to the map set the view to a given center and zoom
-              map.addLayer(cloudmade).setView(new L.LatLng(settings.lat, settings.lng), settings.zoom);
-
-
-            // keep track of the viewport the user last viewed
-            map.on('moveend', function(e) {
-                var pos = map.getBounds().getCenter();
-                localStorage.setItem('lastLat', pos.lat);
-                localStorage.setItem('lastLng', pos.lng);
-            });
-
-            map.on('zoomend', function(zoom) {
-                var zoom = map.getZoom();
-                localStorage.setItem('lastZoom', zoom);
-                settings.zoom = zoom;
-            });
-
-            // attach a given HTML content to the marker and immediately open it
-            // marker.bindPopup("A pretty CSS3 popup.<br />Easily customizable.").openPopup();
-
-        </script>
-    
-
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>HELP-MI</title>
+	<meta name="description" content="I servizi del Comune di Milano a portata di mano">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="app-manifest" href="http://www.opengisitalia.it/help-mi/test/manifest.webapp">
+    <link rel="stylesheet" href="http://openlayers.org/dev/theme/default/style.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
+	<script src="mozapps.js"></script>
+	<!--<script src="mozapps.js"></script>-->
+	<script src="OpenLayers.js"></script>
+	<script src="osm-google.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places,visualization"></script>
+</head>
+<body onload="mozApps.installed();init()">
+<div id="installa">
+	<button onclick="mozApps.install()"><img src="img/firefoxOScolor.png">INSTALLA</button>
+</div>
+<div id="map" class="smallmap"></div>
 </body></html>
