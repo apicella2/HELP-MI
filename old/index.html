@@ -8,21 +8,15 @@
 	<link rel="app-manifest" href="http://www.opengisitalia.it/help-mi/test/manifest.webapp">
     <link rel="stylesheet" href="http://openlayers.org/dev/theme/default/style.css" type="text/css">
     <link rel="stylesheet" href="style.css" type="text/css">
+	<script src="mozapps.js"></script>
 	<!--<script src="mozapps.js"></script>-->
 	<script src="OpenLayers.js"></script>
-	<script>
-	var data;
-	</script>
-	<script src="data.js"></script>
-	<script src="mappa.js"></script>
-	<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places,visualization"></script>-->
+	<script src="osm-google.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places,visualization"></script>
 </head>
-<body onload="init()"> <!--mozApps.installed(); -->
-<!--<div id="installa">
-	<button onclick="mozApps.install()">INSTALLA</button>
-</div>-->
-<div id="menu">
-	<button onclick="localizzami()">LOCALIZZAMI</button><button onclick="spostami_start()">SPOSTAMI</button><button onclick="spostami_stop()">OK</button><button onclick="calcola_percorso()">PERCORSO</button>
+<body onload="mozApps.installed();init()">
+<div id="installa">
+	<button onclick="mozApps.install()"><img src="img/firefoxOScolor.png">INSTALLA</button>
 </div>
 <div id="map" class="smallmap"></div>
 </body></html>
