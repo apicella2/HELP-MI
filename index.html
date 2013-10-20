@@ -6,23 +6,212 @@
 	<meta name="description" content="I servizi del Comune di Milano a portata di mano">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<link rel="app-manifest" href="http://www.opengisitalia.it/help-mi/test/manifest.webapp">
-    <link rel="stylesheet" href="http://openlayers.org/dev/theme/default/style.css" type="text/css">
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="Openlayers.default.style.css">
+	<link rel="stylesheet" href="app.css">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <!--<link rel="stylesheet" href="style.css" type="text/css">-->
 	<!--<script src="mozapps.js"></script>-->
 	<script src="OpenLayers.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	<script>
 	var data;
+	var gruppi, ico_image;
+	var distance;
+	var DistanzaImpostata = 500;
+
+	function formatta(val){
+		if(val >= 1000){
+			result = val/1000 + " km";
+		} else {
+			result = val + " m";
+		}
+		return result
+	}
+
+	$(function() {
+		// lo slider e' associato a un div, attenti all'id
+		$( "#slider" ).slider({
+		orientation: "vertical",
+		//range: "max",
+		min: 100,
+		max: 10000,
+		step: 50,
+		value: 500,
+		// funzione che aggiorna il valore dell'input all'attuale valore dello slider
+		slide: function( event, ui ) {
+			$( "#meter" ).val( formatta(ui.value));
+			distance = ui.value;
+		}
+		});
+		// passa all'input il valore iniziale dello slider
+		$( "#meter" ).val( $("#slider" ).slider( "value" ) + " m");
+		$( "#distanza_menu" ).val( $( "#slider" ).slider( "value" ) + " m");
+		distance =  $( "#slider" ).slider( "value" );
+		DistanzaImpostata = distance;
+	});	
 	</script>
 	<script src="data.js"></script>
+	<script src="gruppi.js"></script>
 	<script src="mappa.js"></script>
-	<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places,visualization"></script>-->
 </head>
-<body onload="init()"> <!--mozApps.installed(); -->
-<!--<div id="installa">
-	<button onclick="mozApps.install()">INSTALLA</button>
-</div>-->
-<div id="menu">
+<body onload="init();start();"> <!--mozApps.installed(); -->
+<!--<div id="menu">
 	<button onclick="localizzami()">LOCALIZZAMI</button><button onclick="spostami_start()">SPOSTAMI</button><button onclick="spostami_stop()">OK</button><button onclick="calcola_percorso()">PERCORSO</button>
+</div>-->
+
+<!-- menu -->
+<div id="menu_standard">
+	<div id="opzioni" style="display:inline;">
+		<button onclick="aggiorna_servizi()">AGGIORNA</button>
+		<img src="img/separatore.png" width="2" height="100%" style="margin: 2;" />
+		<button onclick="mostra_gruppi()">+ Servizi</button>
+		<img src="img/separatore.png" width="2" height="100%" style="margin: 2;" />
+		<button onclick="mostra_posizione()"><img src="img/markerHere_n.png" class="link" width="30px" height="30px" style="margin: 1;" /></button>
+		<img src="img/separatore.png" width="2" height="100%" style="margin: 1;" />
+		<button onclick="mostra_travelmode()"><img id="mode" src="img/car_b.png" height="100%" style="margin: 1;"/></button>
+		<img src="img/separatore.png" width="2" height="100%" style="margin: 2;"/>
+		<input type="button" id="distanza_menu" width="100px" height="100%" class="link" onclick="mostra_distanza()" style="margin: 1;"/>
+		<img src="img/separatore.png" width="2" height="100%" style="margin: 2;"/>
+		<div id="menu_dettagli" style="display:none;">
+			<button onclick="mostra_dettagli()"><img src="img/info.png" width="30px" height="30px" style="margin: 1;" /></button>
+			<img src="img/separatore.png" width="2" height="100%" style="margin: 2;"/>
+		</div>
+		<div id="menu_percorso" style="display:none;">
+			<button onclick="mostra_percorso()"><img src="img/frecce.png" width="30px" height="30px" style="margin: 0;" style="margin: 1;" /></button>
+			<img src="img/separatore.png" width="2" height="100%" style="margin: 2;"/>
+		</div>
+		<div style="display:inline;">
+			<button onclick="pulisci()"><img src="img/clear.png" width="30px" height="30px" style="margin: 0;" style="margin: 1;" /></button>
+			<img src="img/separatore.png" width="2" height="100%" style="margin: 2;"/>
+		</div>
+	</div>
+	<div id="log" style="display:none;"></div>
+	<div id="pulsanti" style="display:inline;"></div>
+	<!--<div id="installa" style="float:right;">
+		<button onclick="mozApps.install()"><img src ="img/firefoxOS.png" width="28px" height="28px" style="margin: 1;"></button>
+	</div>-->
 </div>
-<div id="map" class="smallmap"></div>
+
+<!-- gruppi -->
+<div id="div_gruppi" class="divs" style="display:none;">
+	<button id="farmacie" onclick="AddToSelectedGruppo(this.id)" class="notsel"><img src="img/ICO_sociale.png" width="30" height="30">Farmacie</button>
+	<button id="edicole" onclick="AddToSelectedGruppo(this.id)" class="notsel"><img src="img/ICO_sociale.png" width="30" height="30">Edicole</button>
+	<button id="associazioni_culturali" onclick="AddToSelectedGruppo(this.id)" class="notsel"><img src="img/ICO_ass_culturali.png" width="30" height="30">Associazioni culturali</button>
+	<button id="biblioteche" onclick="AddToSelectedGruppo(this.id)" class="notsel"><img src="img/ICO_biblioteche.png" width="30" height="30">Biblioteche</button>
+	<button id="cinema" onclick="AddToSelectedGruppo(this.id)" class="notsel"><img src="img/ICO_cinema.png" width="30" height="30">Cinema</button>
+	<button id="musei" onclick="AddToSelectedGruppo(this.id)" class="notsel"><img src="img/ICO_musei.png" width="30" height="30">Musei</button>
+	<!--
+	<button onclick=""><img src="img/ICO_teatri.png" width="30" height="30"></td>
+		<td>Teatri e Auditorium</td>
+		<td>
+		<input id="teatri_auditorium" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_bike_sharing.png" width="30" height="30"></td>
+		<td>Stazioni Bike Sharing</td>
+		<td>
+		<input id="bike_sharing" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_trafficoTrasporti.png" width="30" height="30"></td>
+		<td>Stazioni Car Sharing</td>
+		<td>
+		<input id="car_sharing" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_trafficoTrasporti.png" width="30" height="30"></td>
+		<td>Parcheggi Scambiatori</td>
+		<td>
+		<input id="parcheggi_scambiatori" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_trafficoTrasporti.png" width="30" height="30"></td>
+		<td>Stazioni della metropolitana</td>
+		<td>
+		<input id="fermate_mm" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_trafficoTrasporti.png" width="30" height="30"></td>
+		<td>Fermate TPL di superficie</td>
+		<td>
+		<input id="fermate_tpl" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_trafficoTrasporti.png" width="30" height="30"></td>
+		<td>Stazioni ferroviarie</td>
+		<td>
+		<input id="stazioni_ferrovia" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_politica.png" width="30" height="30"></td>
+		<td>Sportelli Milano Semplice</td>
+		<td>
+		<input id="sportello_milano_semplice" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_politica.png" width="30" height="30"></td>
+		<td>Sedi amministrative</td>
+		<td>
+		<input id="sedi_amministrative" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_piscine.png" width="30" height="30"></td>
+		<td>Piscine</td>
+		<td>
+		<input id="piscine" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_turismoTempoLibero.png" width="30" height="30"></td>
+		<td>Impianti sportivi</td>
+		<td>
+		<input id="impianti_sportivi" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_nidi.png" width="30" height="30"></td>
+		<td>Nidi</td>
+		<td>
+		<input id="nidi" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_formazione.png" width="30" height="30"></td>
+		<td>Scuole di infanzia</td>
+		<td>
+		<input id="scuole_infanzia" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_formazione.png" width="30" height="30"></td>
+		<td>Scuole primarie</td>
+		<td>
+		<input id="scuole_primarie" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_formazione.png" width="30" height="30"></td>
+		<td>Scuole secondarie di I grado</td>
+		<td>
+		<input id="scuole_secondarie_1" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_formazione.png" width="30" height="30"></td>
+		<td>Scuole secondarie di II grado</td>
+		<td>
+		<input id="scuole_secondarie_2" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><img src="img/ICO_formazione.png" width="30" height="30"></td>
+		<td>Sedi Universitarie</td>
+		<td>
+		<input id="universita" onclick="AddToSelectedGruppo(this.id)" class="checkbox" type="checkbox" value="ON"></td>
+	<button onclick=""><input id="altro" width="100%" type="textbox" placeholder="cerca..." size="20"></td>
+		<td><input onclick="cerca_altro()" width="100%" type="button" value=">"></button>-->
+</div>
+
+<!-- posizione -->
+<div id="posizione" class="divs" style="display:none;">
+	<table width="100%">
+		<tr>
+			<td>Rileva automaticamente</td>
+			<td><input onclick="individua_posizione()" type="button" value="A"></td>
+		</tr>
+		<tr>
+			<td>Muovi manualmente</td>
+			<td><input onclick="drag_marker()" type="button" value="D"></td>
+		</tr>
+		<tr>
+			<td><input id="address" type="textbox" placeholder="cerca..." size="20"></td> <!--   -->
+			<td><input onclick="codeAddress()" type="button" value=">>"></td>
+		</tr>
+	</table>
+</div>
+
+<!-- travelmode -->
+<div id="travelmode" class="divs" style="display:none;">
+	<p align="center"><img src="img/car_b.png" onclick="change_mode('car');" width="54" height="26"/></p>
+	<p align="center"><img src="img/ped_b.png" onclick="change_mode('foot');" width="26" height="26"/></p>
+</div>
+
+<!-- percorso -->
+<div id="percorso" class="divs" style="display:none;"></div>
+
+<!-- dettagli -->
+<div id="dettagli" class="divs" style="display:none;"></div>
+
+<!-- distanza -->	
+<div id="distanza" class="divs" style="display:none;">
+	<div id="barra">
+		<div id="ouput"><input type="text" id="meter"/></div>
+		<div id="slider"></div>
+	</div>
+</div>
+
+<!-- mappa -->
+<div id="map"></div>
 </body></html>

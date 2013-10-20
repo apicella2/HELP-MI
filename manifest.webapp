@@ -1,0 +1,17 @@
+﻿{
+	"version": "0.1",
+	"name": "MONDO",
+	"description": "YUP",
+	"launch_path": "/help-mi/test/",
+	"icons": {
+		"16": "/help-mi/test/img/helpmi_16.png",
+		"48": "/help-mi/test/img/helpmi_48.png",
+		"60": "/help-mi/test/img/helpmi_60.png",
+		"128": "/help-mi/test/img/helpmi_128.png"
+	},
+	"developer": {
+		"name": "Daniele Apicella and Daniele Sodano",
+		"url": "http://opengisitalia.it/help-mi"
+	},
+	"default_locale": "it"
+}
